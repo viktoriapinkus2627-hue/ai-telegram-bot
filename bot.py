@@ -1,11 +1,9 @@
 import os
+import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 
-# Токен бота из переменных среды Render
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-
-# Название PDF-файла в папке с ботом
 PDF_FILE = "AI_Guide.pdf"
 
 # Главное меню
@@ -34,9 +32,12 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         chat_id = query.message.chat.id
         await context.bot.send_document(chat_id=chat_id, document=open(PDF_FILE, "rb"))
 
-# Запуск бота
-if __name__ == "__main__":
+# Асинхронный запуск бота
+async def main():
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button))
-    app.run_polling()
+    await app.run_polling()
+
+if __name__ == "__main__":
+    asyncio.run(main())
