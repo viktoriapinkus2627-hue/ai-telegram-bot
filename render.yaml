@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: ai-telegram-bot-3
-    env: python
-    pythonVersion: "3.11"
-    plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python bot.py"
